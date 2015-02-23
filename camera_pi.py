@@ -2,7 +2,7 @@ import time
 import io
 import threading
 import picamera
-
+from fractions import Fraction
 
 class Camera(object):
     thread = None  # background thread that reads frames from camera
@@ -25,17 +25,20 @@ class Camera(object):
     def _thread(cls):
         with picamera.PiCamera() as camera:
             # camera setup
-            camera.resolution = (320, 240)
             # camera.hflip = True
             # camera.vflip = True
 
             # let camera warm up
             # camera.start_preview()
-            time.sleep(2)
+            # time.sleep(2)
+
+            camera.resolution = (1296,730)
+            camera.framerate = Fraction(3,1)
+            camera.annotate_frame_num = True
 
             stream = io.BytesIO()
             for foo in camera.capture_continuous(stream, 'jpeg',
-                                                 use_video_port=True):
+                                                 use_video_port=True, resize=(648,365)):
                 # store frame
                 stream.seek(0)
                 cls.frame = stream.read()

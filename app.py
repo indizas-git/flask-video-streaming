@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 from flask import Flask, render_template, Response, jsonify
 from time import strftime
+from gevent.pywsgi import WSGIServer
+# from gevent import monkey; monkey.patch_thread()
 
 # emulated camera
 # from camera import Camera
@@ -9,6 +11,8 @@ from time import strftime
 from camera_pi import Camera
 
 app = Flask(__name__)
+app.debug = False
+app.threaded = False
 
 
 @app.route('/')
@@ -38,4 +42,9 @@ def resp_test():
     return jsonify(rsp_msg1 = str_msg1)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=False, threaded=True)
+    http_server = WSGIServer(('0.0.0.0', 5000), app)
+    try:
+        print('Starting ...')
+        http_server.serve_forever()
+    except KeyboardInterrupt:
+        print('Caught KeyboardInterrupt')
