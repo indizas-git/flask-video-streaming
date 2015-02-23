@@ -1,9 +1,17 @@
 <html>
   <head>
     <title>Video Streaming Demonstration</title>
+		<script src='static/jquery/1.11.1/jquery-1.11.1.min.js'></script>
+		<script src='static/js/for_index.js'></script>
   </head>
   <body>
     <h1>Video Streaming Demonstration</h1>
-    <img src="{{ url_for('video_feed') }}">
+    <img id ='img-preview' src='{{ url_for('video_feed') }}'>
+		<div>
+			<button id='btn-cam-1' type="button">Test Response</button>
+		</div>
+		<div>
+			<span id='msg-cam-1'>Status: IDLE</span>
+		</div>
   </body>
 </html>

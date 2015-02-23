@@ -26,11 +26,11 @@ class Camera(object):
         with picamera.PiCamera() as camera:
             # camera setup
             camera.resolution = (320, 240)
-            camera.hflip = True
-            camera.vflip = True
+            # camera.hflip = True
+            # camera.vflip = True
 
             # let camera warm up
-            camera.start_preview()
+            # camera.start_preview()
             time.sleep(2)
 
             stream = io.BytesIO()

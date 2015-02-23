@@ -1,11 +1,12 @@
 #!/usr/bin/env python
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, jsonify
+from time import strftime
 
 # emulated camera
-from camera import Camera
+# from camera import Camera
 
 # Raspberry Pi camera module (requires picamera package)
-# from camera_pi import Camera
+from camera_pi import Camera
 
 app = Flask(__name__)
 
@@ -30,6 +31,11 @@ def video_feed():
     return Response(gen(Camera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
+@app.route('/_resp_test')
+def resp_test():
+
+    str_msg1 = 'Last Tested: ' + strftime('%Y-%m-%d %H:%M:%S')
+    return jsonify(rsp_msg1 = str_msg1)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', debug=False, threaded=True)
